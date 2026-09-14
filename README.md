@@ -4,7 +4,7 @@
 
 PUSENBI is a long-term game development project built around one simple goal:
 
-> **Make the player say: "That was insanely fun."**
+> **project long-term"**
 
 The project begins as a Java OOP Workshop prototype and is designed to grow over time into a larger Unity-based action RPG with multiplayer and game infrastructure systems.
 
