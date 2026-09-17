@@ -1,5 +1,5 @@
 # PUSENBI
-
+# project-Pixel-Unknown-Sekai-Never-Be-In-Chibi
 > A fast-paced pixel action RPG focused on party-based combat, fluid character switching, and satisfying combo chains.
 
 PUSENBI is a long-term game development project built around one simple goal:
