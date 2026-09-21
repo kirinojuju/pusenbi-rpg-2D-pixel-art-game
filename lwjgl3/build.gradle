@@ -19,6 +19,21 @@ apply plugin: 'io.github.fourlastor.construo'
 import io.github.fourlastor.construo.Target
 
 sourceSets.main.resources.srcDirs += [ rootProject.file('assets').path ]
+// A small standalone check uses the existing runtime without a test framework.
+sourceSets {
+  animationCheck {
+    compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
+    runtimeClasspath += output + compileClasspath
+  }
+}
+// Read assets from the built JAR, outside assets/, to reproduce packaged/IDE failures.
+tasks.register('animationCheck', JavaExec) {
+  dependsOn animationCheckClasses, jar
+  classpath = files(sourceSets.animationCheck.output, tasks.named('jar').flatMap { it.archiveFile })
+  mainClass = 'io.github.kirinojuju.pusenbi.lwjgl3.AnimationChecks'
+  workingDir = rootProject.projectDir
+}
+check.dependsOn 'animationCheck'
 application.mainClass = 'io.github.kirinojuju.pusenbi.lwjgl3.Lwjgl3Launcher'
 application.applicationName = appName
 eclipse.project.name = appName + '-lwjgl3'
