@@ -621,20 +621,76 @@ The first release will focus on presenting the core combat experience rather tha
 
 ## 🎮 Controls
 
-Controls will be finalized during development.
-
-Example layout:
+Current prototype controls:
 
 ```text
-WASD        Move
-Left Click  Normal Attack
+WASD / Arrows  Move
+Left Shift     Dash
+Left Click     Normal sword attack
+```
+
+Planned controls (not implemented yet):
+
+```text
 Right Click Skill
-Space       Dash
 Q / E       Switch Character
 R           Ultimate
 ```
 
-These controls are provisional and may change during playtesting.
+Planned controls are provisional and may change during playtesting.
+
+### Sword combat v0.1
+
+One left mouse click starts one swing in the current facing direction. Holding
+the button does not repeat it; release and click again after recovery. Walking
+during a swing is 50% speed (85 units/second), including normalized diagonal movement.
+The sword and hitbox follow Kaito; swing facing stays fixed. A fresh Left Shift
+press cancels it into the existing dash. Dash wins
+if both actions are pressed together. Attacks pressed during dash/recovery are
+not queued.
+
+The swing lasts 0.30 seconds: 0.09 wind-up, 0.06 impact, and 0.15 recovery. Only
+impact deals damage: 25 health once per target per swing. A yellow rectangle
+shows the hitbox during impact. The stationary dummy starts below Kaito, in range
+of his initial downward attack, with 100 HP. The HUD and console report damage;
+restart the game to reset a defeated dummy.
+
+Kaito starts with 100 stamina. Each accepted attack costs 10 SP, including swings
+that miss or are cancelled into dash. Rejected presses cost nothing, and attacks
+are blocked below 10 SP. Stamina regenerates at 20 SP/second after a one-second
+delay from the last accepted attack, outside an ongoing swing, up to 100 SP.
+The HUD displays a stamina bar and amount. Dash does not consume stamina.
+
+The supplied sword remains a separate texture, rotated around its grip. No Kaito
+attack body frames are currently supplied, so ATTACK temporarily retains the
+existing idle side pose. Up/down retain the last left/right body pose, matching
+the existing directional strategy. No artwork is generated or modified.
+
+Hitboxes relative to the player's world/feet anchor `(x, y)`:
+
+| Facing | Bottom-left | Size | Sword grip offset |
+| --- | --- | --- | --- |
+| Right | `(x + 10, y + 6)` | `46 x 32` | `(+10, +22)` |
+| Left | `(x - 56, y + 6)` | `46 x 32` | `(-10, +22)` |
+| Up | `(x - 16, y + 28)` | `32 x 46` | `(0, +30)` |
+| Down | `(x - 16, y - 28)` | `32 x 46` | `(0, +18)` |
+
+The 64 x 12 sword is drawn at 48 x 9, pivoting at `(4.5, 4.5)` in its draw
+rectangle. The swing rotates from -70 to -55 degrees during wind-up, -55 to +55
+during impact, and +55 to +70 during recovery, relative to the facing direction.
+The dummy bounds are 24 x 40. All measurements are world units.
+
+Validation:
+
+```powershell
+.\gradlew.bat :core:build :lwjgl3:build
+.\gradlew.bat :lwjgl3:desktopCombatCheck
+```
+
+The optional Desktop check uses real OpenGL rendering with scripted input events
+and saves local snapshots under `build/combat-validation/`. It checks walking,
+dash distance, attacks in all four directions, health changes, and state recovery.
+It is separate from the normal build because it requires a graphics environment.
 
 ---
 

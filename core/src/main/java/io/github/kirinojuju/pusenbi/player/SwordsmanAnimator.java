@@ -69,10 +69,16 @@ public class SwordsmanAnimator implements Disposable {
             case DASH:
                 animation = dash.get(availableSide);
                 break;
+            case ATTACK:
+                // No Kaito attack body frames are supplied yet. Preserve the feet anchor
+                // and the current side pose while the separate sword layer animates.
+                animation = idle.get(availableSide);
+                break;
             default:
                 animation = idle.get(availableSide);
         }
-        return animation.getKeyFrame(stateTime, state != AnimationState.DASH);
+        return animation.getKeyFrame(stateTime,
+                state != AnimationState.DASH && state != AnimationState.ATTACK);
     }
 
     @Override

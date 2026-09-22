@@ -158,6 +158,7 @@ Thumbs.db
 # Private character artwork is supplied locally, never committed.
 /assets/characters/
 /.private-backups/
+/assets/individual_sprites/
 
 ## Special cases:
 

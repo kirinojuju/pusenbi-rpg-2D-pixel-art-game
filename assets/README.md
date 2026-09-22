@@ -14,9 +14,12 @@ assets/characters/kaito/body/walk/_kaito_walk_l00.png ... _kaito_walk_l03.png
 assets/characters/kaito/body/walk/_kaito_walk_r00.png ... _kaito_walk_r03.png
 assets/characters/kaito/body/dash/_kaito_dash_l00.png ... _kaito_dash_l04.png
 assets/characters/kaito/body/dash/_kaito_dash_r00.png ... _kaito_dash_r04.png
+assets/characters/kaito/weapons/normal_sword.png
 ```
 
-The assets are 64 x 64 pixel frames. A full build runs animation checks and
+The body assets are 64 x 64 pixel frames; the sword is 64 x 12. No Kaito attack
+body sequence is currently supplied: combat temporarily uses the idle side pose
+with a separately animated sword. A full build runs animation/combat checks and
 requires these files. Code alone can be compiled with:
 
 ```powershell
@@ -29,3 +32,5 @@ project root. The existing left/right animations will load normally.
 Local game JARs and distribution archives include locally installed artwork.
 Do not publish those builds, screenshots, or asset archives if the artwork
 must remain private. Git ignore rules do not remove files from compiled builds.
+
+:D

@@ -4,5 +4,6 @@ package io.github.kirinojuju.pusenbi.player;
 public enum AnimationState {
     IDLE,
     WALK,
-    DASH
+    DASH,
+    ATTACK
 }

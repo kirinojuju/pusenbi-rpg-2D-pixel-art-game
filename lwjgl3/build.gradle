@@ -34,6 +34,17 @@ tasks.register('animationCheck', JavaExec) {
   workingDir = rootProject.projectDir
 }
 check.dependsOn 'animationCheck'
+// Optional real-OpenGL validation; kept out of check so headless builds still work.
+tasks.register('desktopCombatCheck', JavaExec) {
+  dependsOn animationCheckClasses, jar
+  classpath = files(sourceSets.animationCheck.output, tasks.named('jar').flatMap { it.archiveFile })
+  mainClass = 'io.github.kirinojuju.pusenbi.lwjgl3.DesktopCombatChecks'
+  workingDir = rootProject.projectDir
+  jvmArgs += '--enable-native-access=ALL-UNNAMED'
+  if (System.properties['os.name'].toLowerCase(Locale.ROOT).contains('mac')) {
+    jvmArgs += '-XstartOnFirstThread'
+  }
+}
 application.mainClass = 'io.github.kirinojuju.pusenbi.lwjgl3.Lwjgl3Launcher'
 application.applicationName = appName
 eclipse.project.name = appName + '-lwjgl3'
